@@ -19,11 +19,11 @@ public class MultithreadingSorter {
 
     protected static class ThreadSort extends Thread {
         private int[] numbersToSort;
-        private int identifier;
+        private final int identifier;
 
-        protected ThreadSort(int number) {
+        protected ThreadSort(int identifier) {
             this.numbersToSort = this.generateRandomArray();
-            this.identifier = number;
+            this.identifier = identifier;
 
         }
 
