@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 public class MultithreadingSorter {
     private static final int ARRAY_SIZE = 500;
     private static final int UPPER_BOUND_RANDOM = 10000;
+    private static final int NANOSECONDS_IN_MILLISECONDS = 1000000;
 
     /** Creates given number of threads and executes them. */
     public static void measureTimeOfSorting(final int amountOfThreads) {
@@ -39,8 +40,7 @@ public class MultithreadingSorter {
         public void run() {
             final long startTime = System.nanoTime();
             sort();
-            final long elapsedTimeInNanoseconds = System.nanoTime() - startTime;
-            final long elapsedTimeInMilliseconds = TimeUnit.MILLISECONDS.convert(elapsedTimeInNanoseconds, TimeUnit.NANOSECONDS);
+            final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
             System.out.println("Thread " + identifier + " processed data for " + elapsedTimeInMilliseconds + " milliseconds");
         }
 
@@ -50,7 +50,7 @@ public class MultithreadingSorter {
             for (int i = 0; i < length - 1; i++) {
                 for (int j = 0; j < length - i - 1; j++) {
                     if (numbersToSort[j] > numbersToSort[j + 1]) {
-                        int temp = numbersToSort[j];
+                        final int temp = numbersToSort[j];
                         numbersToSort[j] = numbersToSort[j + 1];
                         numbersToSort[j + 1] = temp;
                     }
