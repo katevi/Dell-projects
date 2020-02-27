@@ -13,6 +13,8 @@ public class Main {
             System.out.println("Please, enter amount of threads.");
         } catch (java.lang.NumberFormatException e) {
             System.out.println("Wrong number format. Please, enter positive integer number. ");
+        } catch (Exception e) {
+            System.out.println("Something went wrong in multithreading sorter. ");
         }
     }
 }
