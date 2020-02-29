@@ -1,7 +1,6 @@
 package com.vinnik.kate;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /** Class, which creates given number of threads, and measures time they need to sort random array. */
 public class MultithreadingSorter {
@@ -19,17 +18,14 @@ public class MultithreadingSorter {
 
 
     final protected static class ThreadSort extends Thread {
-        private final int[] numbersToSort;
         private final int identifier;
 
         protected ThreadSort(final int identifier) {
-            this.numbersToSort = this.generateRandomArray();
             this.identifier = identifier;
-
         }
 
-        private int[] generateRandomArray() {
-            final int[] randomArray = new int[ARRAY_SIZE];
+        private int[] generateRandomArray(int arraySize) {
+            final int[] randomArray = new int[arraySize];
             final Random random = new Random();
             for (int i = 0; i < randomArray.length; i++) {
                 randomArray[i] = random.nextInt(UPPER_BOUND_RANDOM);
@@ -37,27 +33,27 @@ public class MultithreadingSorter {
             return randomArray;
         }
 
-        public void run() {
-            final long startTime = System.nanoTime();
-            sort();
-            final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
-            System.out.println("Thread " + identifier + " processed data for " + elapsedTimeInMilliseconds + " milliseconds");
-        }
-
-        protected void sort() {
-            final int length = numbersToSort.length;
+        protected void sort(int[] array) {
+            final int length = array.length;
 
             for (int i = 0; i < length - 1; i++) {
                 for (int j = 0; j < length - i - 1; j++) {
-                    if (numbersToSort[j] > numbersToSort[j + 1]) {
-                        final int temp = numbersToSort[j];
-                        numbersToSort[j] = numbersToSort[j + 1];
-                        numbersToSort[j + 1] = temp;
+                    if (array[j] > array[j + 1]) {
+                        final int temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
                     }
                 }
             }
         }
 
+        public void run() {
+            final long startTime = System.nanoTime();
+            sort(this.generateRandomArray(ARRAY_SIZE));
+            final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
+
+            System.out.println("Thread " + identifier + " processed data for " + elapsedTimeInMilliseconds + " milliseconds");
+        }
     }
 
 }
