@@ -7,16 +7,16 @@ public class TaskTable {
     private final static int BOTTOM_BOUND_OF_RANDOM = 10000;
     private final static int UPPER_BOUND_OF_RANDOM = 100000;
 
-    private final Hashtable<Integer, Integer> taskTable;
+    private final Hashtable<Integer, Task> taskTable;
 
     public TaskTable(int amountOfMeasurements) {
         this.taskTable = this.fillTableWithTasks(amountOfMeasurements);
     }
 
-    private Hashtable fillTableWithTasks(int amountOfMeasurements) {
-        final Hashtable<Integer, Integer> tableWithTasks = new Hashtable<>();
+    private Hashtable<Integer, Task> fillTableWithTasks(int amountOfMeasurements) {
+        final Hashtable<Integer, Task> tableWithTasks = new Hashtable<>();
         for (int i = 0; i < amountOfMeasurements; i++) {
-            tableWithTasks.put(i, this.generateRandom());
+            tableWithTasks.put(i, new Task(i, this.generateRandom()));
         }
         return tableWithTasks;
     }
@@ -28,7 +28,7 @@ public class TaskTable {
 
     public void printFilledTable() {
         for (int i = 0; i < this.taskTable.size(); i++) {
-            System.out.println(i + " " + this.taskTable.get(i));
+            System.out.println(this.taskTable.get(i).getTaskIdentifier() + " " + this.taskTable.get(i).getAmountOfNumbers());
         }
     }
 }
