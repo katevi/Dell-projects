@@ -9,15 +9,17 @@ public class Main {
         try {
             final int amountOfThreads = Integer.parseInt(args[0]);
             final int amountOfMeasurements = Integer.parseInt(args[1]);
+
             if (amountOfThreads < MINIMAL_AMOUNT_OF_THREADS || amountOfMeasurements < MINIMAL_AMOUNT_OF_MEASUREMENTS) {
                 System.out.println("Incorrect input format. Please, enter positive integer number of threads and measurements in such form: \n" +
                         "\"java -jar {name-of-created-jar-file}.jar {amount-of-threads} {amount-of-measurements}\"");
             }
-            System.out.println("You entered " + amountOfThreads + " " + amountOfMeasurements);
+
+            System.out.println("Amount of threads is " + amountOfThreads + ", amount of measurements is " + amountOfMeasurements);
+
             TaskExecutor executor = new TaskExecutor(amountOfThreads, amountOfMeasurements);
             executor.measureTasksCompletionTime();
-            //TaskTable taskTable = new TaskTable(amountOfMeasurements);
-            //taskTable.printFilledTable();
+
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
             System.out.println("Incorrect input format. Please, enter positive integer number of threads and measurements in such form: \n" +
                     "\"java -jar {name-of-created-jar-file}.jar {amount-of-threads} {amount-of-measurements}\"");

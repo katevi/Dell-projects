@@ -23,17 +23,12 @@ public class TaskTable {
         return this.lastTaskIdentifier >= this.taskTable.size();
     }
 
-    public synchronized Task setLastTaskIdentifier(int identifierOfNewTakenTask) {
+    public synchronized Task incrementLastTaskIdentifier() {
         if (lastTaskIdentifier < taskTable.size()) {
             this.lastTaskIdentifier++;
-            System.out.println("Last task is now " + this.lastTaskIdentifier);
             return this.taskTable.get(this.lastTaskIdentifier - 1);
         }
         return null;
-    }
-
-    public int getSize() {
-        return taskTable.size();
     }
 
     private Hashtable<Integer, Task> fillTableWithTasks(int amountOfMeasurements) {
@@ -47,11 +42,5 @@ public class TaskTable {
     private int generateRandom() {
         final Random random = new Random();
         return (BOTTOM_BOUND_OF_RANDOM + random.nextInt(UPPER_BOUND_OF_RANDOM));
-    }
-
-    public void printFilledTable() {
-        for (int i = 0; i < this.taskTable.size(); i++) {
-            System.out.println(this.taskTable.get(i).getTaskIdentifier() + " " + this.taskTable.get(i).getAmountOfNumbers());
-        }
     }
 }

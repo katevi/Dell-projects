@@ -8,21 +8,18 @@ public class TaskExecutor {
 
     private final int amountOfThreads;
 
-    private ResultTable resultTable;
     private TaskTable taskTable;
 
     public TaskExecutor(int amountOfThreads, int amountOfMeasurements) {
         this.amountOfThreads = amountOfThreads;
-        this.resultTable = new ResultTable();
         this.taskTable = new TaskTable(amountOfMeasurements);
     }
 
     public void measureTasksCompletionTime() {
+        System.out.println("Starting measuring...");
         for (int i = 0; i < amountOfThreads; i++) {
             Thread thread = new Thread(new ThreadSorter(i));
             thread.start();
-            //System.out.println("ThreadSorter number " + i + " started");
-
         }
     }
 
@@ -37,19 +34,18 @@ public class TaskExecutor {
         @Override
         public void run() {
             while (!taskTable.isAllTaskTook()) {
-                this.task = taskTable.setLastTaskIdentifier(taskTable.getLastTaskIdentifier().getTaskIdentifier());
+                this.task = taskTable.incrementLastTaskIdentifier();
                 if (this.task != null) {
                     this.task.setThreadIdentifier(this.threadIdentifier);
 
-                    System.out.println("Thread number " + task.getThreadIdentifier() + " took task number " + task.getTaskIdentifier());
+                    System.out.println("Thread number " + task.getThreadIdentifier() + " took task " + task.getTaskIdentifier() + ".");
 
                     final long startTime = System.nanoTime();
                     this.sort(generateRandomArray(task.getAmountOfNumbers()));
                     final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
 
                     this.task.setMeasuredTime(elapsedTimeInMilliseconds);
-
-                    System.out.println(task.getThreadIdentifier() + " " + task.getTaskIdentifier() + " " + task.getAmountOfNumbers() + " " + task.getMeasuredTime());
+                    this.printMeasure(this.task);
                 }
             }
         }
@@ -78,8 +74,9 @@ public class TaskExecutor {
             }
         }
 
-        private void printResultToTable(Task task) {
-            resultTable.addFinishedTask(task);
+        private void printMeasure(Task task) {
+            System.out.println("Thread " + task.getThreadIdentifier() + " completed task " + task.getTaskIdentifier()
+                    + ": sorted " + task.getAmountOfNumbers() + " numbers in " + task.getMeasuredTime() + " milliseconds. ");
         }
     }
 }
