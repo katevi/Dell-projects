@@ -19,33 +19,38 @@ public class TaskExecutor {
 
     public void measureTasksCompletionTime() {
         for (int i = 0; i < amountOfThreads; i++) {
-            Thread thread = new Thread(i);
-            thread.run();
+            Thread thread = new Thread(new ThreadSorter(i));
+            thread.start();
+            //System.out.println("ThreadSorter number " + i + " started");
 
         }
     }
 
-    private class Thread implements Runnable {
+    private class ThreadSorter implements Runnable {
         private final int threadIdentifier;
         private Task task;
 
-        private Thread(int threadIdentifier) {
+        private ThreadSorter(int threadIdentifier) {
             this.threadIdentifier = threadIdentifier;
         }
 
         @Override
         public void run() {
-            while (taskTable.setLastTaskIdentifier(taskTable.getLastTaskIdentifier().getTaskIdentifier() + 1)) {
-                this.task = taskTable.getLastTaskIdentifier();
-                this.task.setThreadIdentifier(this.threadIdentifier);
+            while (!taskTable.isAllTaskTook()) {
+                this.task = taskTable.setLastTaskIdentifier(taskTable.getLastTaskIdentifier().getTaskIdentifier());
+                if (this.task != null) {
+                    this.task.setThreadIdentifier(this.threadIdentifier);
 
-                final long startTime = System.nanoTime();
-                this.sort(generateRandomArray(task.getAmountOfNumbers()));
-                final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
+                    System.out.println("Thread number " + task.getThreadIdentifier() + " took task number " + task.getTaskIdentifier());
 
-                this.task.setMeasuredTime(elapsedTimeInMilliseconds);
+                    final long startTime = System.nanoTime();
+                    this.sort(generateRandomArray(task.getAmountOfNumbers()));
+                    final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
 
-                System.out.println(task.getThreadIdentifier() + " " + task.getTaskIdentifier() + " " + task.getAmountOfNumbers() + " " + task.getMeasuredTime());
+                    this.task.setMeasuredTime(elapsedTimeInMilliseconds);
+
+                    System.out.println(task.getThreadIdentifier() + " " + task.getTaskIdentifier() + " " + task.getAmountOfNumbers() + " " + task.getMeasuredTime());
+                }
             }
         }
 

@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class TaskTable {
     private final static int BOTTOM_BOUND_OF_RANDOM = 10000;
-    private final static int UPPER_BOUND_OF_RANDOM = 100000;
-    private int lastTaskIdentifier;
+    private final static int UPPER_BOUND_OF_RANDOM = 90000;
+    private volatile int lastTaskIdentifier;
 
     private final Hashtable<Integer, Task> taskTable;
 
@@ -19,13 +19,17 @@ public class TaskTable {
         return taskTable.get(lastTaskIdentifier);
     }
 
-    public boolean setLastTaskIdentifier(int identifierOfNewTakenTask) {
-        if (identifierOfNewTakenTask < taskTable.size()) {
-            this.lastTaskIdentifier = identifierOfNewTakenTask;
-            System.out.print("Last task is now " + this.lastTaskIdentifier);
-            return true;
+    public boolean isAllTaskTook() {
+        return this.lastTaskIdentifier >= this.taskTable.size();
+    }
+
+    public synchronized Task setLastTaskIdentifier(int identifierOfNewTakenTask) {
+        if (lastTaskIdentifier < taskTable.size()) {
+            this.lastTaskIdentifier++;
+            System.out.println("Last task is now " + this.lastTaskIdentifier);
+            return this.taskTable.get(this.lastTaskIdentifier - 1);
         }
-        return false;
+        return null;
     }
 
     public int getSize() {
