@@ -2,6 +2,7 @@ package com.vinnik.kate;
 
 import java.util.Random;
 
+/** This class starts threads, which are measures time of processing tasks. */
 public class TaskExecutor {
     private static final int UPPER_BOUND_OF_RANDOM = 10000;
     private static final int NANOSECONDS_IN_MILLISECONDS = 1000000;
@@ -10,13 +11,15 @@ public class TaskExecutor {
 
     private TaskTable taskTable;
 
+    /** Creates new object's table with tasks with given amount of tasks, creates given amount of threads. */
     public TaskExecutor(int amountOfThreads, int amountOfMeasurements) {
         this.amountOfThreads = amountOfThreads;
         this.taskTable = new TaskTable(amountOfMeasurements);
     }
 
+    /** Starts measures of time to complete each task from table with tasks. */
     public void measureTasksCompletionTime() {
-        System.out.println("Starting measuring...");
+        System.out.println("Measuring starts...");
         for (int i = 0; i < amountOfThreads; i++) {
             Thread thread = new Thread(new ThreadSorter(i));
             thread.start();
@@ -34,7 +37,7 @@ public class TaskExecutor {
         @Override
         public void run() {
             while (!taskTable.isAllTaskTook()) {
-                this.task = taskTable.incrementLastTaskIdentifier();
+                this.task = taskTable.popLastTaskIdentifier();
                 if (this.task != null) {
                     this.task.setThreadIdentifier(this.threadIdentifier);
 

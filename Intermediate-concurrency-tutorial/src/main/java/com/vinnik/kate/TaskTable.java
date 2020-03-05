@@ -3,6 +3,9 @@ package com.vinnik.kate;
 import java.util.Hashtable;
 import java.util.Random;
 
+/** This class generates and stores table with tasks:
+ *  task is array of random length within random numbers, which needs to be sorted
+ *  task considered completed, when array sorted. */
 public class TaskTable {
     private final static int BOTTOM_BOUND_OF_RANDOM = 10000;
     private final static int UPPER_BOUND_OF_RANDOM = 90000;
@@ -15,15 +18,13 @@ public class TaskTable {
         this.taskTable = this.fillTableWithTasks(amountOfMeasurements);
     }
 
-    public Task getLastTaskIdentifier() {
-        return taskTable.get(lastTaskIdentifier);
-    }
-
+    /** Checks if all tasks have took by some thread. */
     public boolean isAllTaskTook() {
         return this.lastTaskIdentifier >= this.taskTable.size();
     }
 
-    public synchronized Task incrementLastTaskIdentifier() {
+    /** Returns last not took by any thread task and increments last task flag. */
+    public synchronized Task popLastTaskIdentifier() {
         if (lastTaskIdentifier < taskTable.size()) {
             this.lastTaskIdentifier++;
             return this.taskTable.get(this.lastTaskIdentifier - 1);
