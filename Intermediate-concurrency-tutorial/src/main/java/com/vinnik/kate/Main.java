@@ -14,8 +14,9 @@ public class Main {
                         "\"java -jar {name-of-created-jar-file}.jar {amount-of-threads} {amount-of-measurements}\"");
             }
             System.out.println("You entered " + amountOfThreads + " " + amountOfMeasurements);
-            TaskTable taskTable = new TaskTable(amountOfMeasurements);
-            taskTable.printFilledTable();
+            TaskExecutor executor = new TaskExecutor(amountOfThreads, amountOfMeasurements);
+            //TaskTable taskTable = new TaskTable(amountOfMeasurements);
+            //taskTable.printFilledTable();
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
             System.out.println("Incorrect input format. Please, enter positive integer number of threads and measurements in such form: \n" +
                     "\"java -jar {name-of-created-jar-file}.jar {amount-of-threads} {amount-of-measurements}\"");

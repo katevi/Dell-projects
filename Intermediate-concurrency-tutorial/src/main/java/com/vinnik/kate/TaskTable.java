@@ -6,11 +6,29 @@ import java.util.Random;
 public class TaskTable {
     private final static int BOTTOM_BOUND_OF_RANDOM = 10000;
     private final static int UPPER_BOUND_OF_RANDOM = 100000;
+    private int lastTaskIdentifier;
 
     private final Hashtable<Integer, Task> taskTable;
 
     public TaskTable(int amountOfMeasurements) {
+        this.lastTaskIdentifier = 0;
         this.taskTable = this.fillTableWithTasks(amountOfMeasurements);
+    }
+
+    public Task getLastTaskIdentifier() {
+        return taskTable.get(lastTaskIdentifier);
+    }
+
+    public boolean setLastTaskIdentifier(int identifierOfNewTakenTask) {
+        if (identifierOfNewTakenTask < taskTable.size()) {
+            this.lastTaskIdentifier = identifierOfNewTakenTask;
+            return true;
+        }
+        return false;
+    }
+
+    public int getSize() {
+        return taskTable.size();
     }
 
     private Hashtable<Integer, Task> fillTableWithTasks(int amountOfMeasurements) {
