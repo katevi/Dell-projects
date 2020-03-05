@@ -22,6 +22,7 @@ public class TaskTable {
     public boolean setLastTaskIdentifier(int identifierOfNewTakenTask) {
         if (identifierOfNewTakenTask < taskTable.size()) {
             this.lastTaskIdentifier = identifierOfNewTakenTask;
+            System.out.print("Last task is now " + this.lastTaskIdentifier);
             return true;
         }
         return false;

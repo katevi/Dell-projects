@@ -21,6 +21,7 @@ public class TaskExecutor {
         for (int i = 0; i < amountOfThreads; i++) {
             Thread thread = new Thread(i);
             thread.run();
+
         }
     }
 
@@ -36,12 +37,15 @@ public class TaskExecutor {
         public void run() {
             while (taskTable.setLastTaskIdentifier(taskTable.getLastTaskIdentifier().getTaskIdentifier() + 1)) {
                 this.task = taskTable.getLastTaskIdentifier();
+                this.task.setThreadIdentifier(this.threadIdentifier);
 
                 final long startTime = System.nanoTime();
                 this.sort(generateRandomArray(task.getAmountOfNumbers()));
                 final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
 
-                System.out.println();
+                this.task.setMeasuredTime(elapsedTimeInMilliseconds);
+
+                System.out.println(task.getThreadIdentifier() + " " + task.getTaskIdentifier() + " " + task.getAmountOfNumbers() + " " + task.getMeasuredTime());
             }
         }
 

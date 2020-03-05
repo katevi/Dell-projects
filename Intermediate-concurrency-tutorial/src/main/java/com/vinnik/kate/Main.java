@@ -15,6 +15,7 @@ public class Main {
             }
             System.out.println("You entered " + amountOfThreads + " " + amountOfMeasurements);
             TaskExecutor executor = new TaskExecutor(amountOfThreads, amountOfMeasurements);
+            executor.measureTasksCompletionTime();
             //TaskTable taskTable = new TaskTable(amountOfMeasurements);
             //taskTable.printFilledTable();
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
