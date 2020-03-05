@@ -3,13 +3,13 @@ package com.vinnik.kate;
 import java.util.Random;
 
 /** This class starts threads, which are measures time of processing tasks. */
-public class TaskExecutor {
+public final class TaskExecutor {
     private static final int UPPER_BOUND_OF_RANDOM = 10000;
     private static final int NANOSECONDS_IN_MILLISECONDS = 1000000;
 
     private final int amountOfThreads;
 
-    private TaskTable taskTable;
+    private final TaskTable taskTable;
 
     /** Creates new object's table with tasks with given amount of tasks, creates given amount of threads. */
     public TaskExecutor(int amountOfThreads, int amountOfMeasurements) {
@@ -21,12 +21,12 @@ public class TaskExecutor {
     public void measureTasksCompletionTime() {
         System.out.println("Measuring starts...");
         for (int i = 0; i < amountOfThreads; i++) {
-            Thread thread = new Thread(new ThreadSorter(i));
+            final Thread thread = new Thread(new ThreadSorter(i));
             thread.start();
         }
     }
 
-    private class ThreadSorter implements Runnable {
+    private final class ThreadSorter implements Runnable {
         private final int threadIdentifier;
         private Task task;
 

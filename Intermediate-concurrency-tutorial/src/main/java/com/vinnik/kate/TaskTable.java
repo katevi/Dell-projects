@@ -6,7 +6,7 @@ import java.util.Random;
 /** This class generates and stores table with tasks:
  *  task is array of random length within random numbers, which needs to be sorted
  *  task considered completed, when array sorted. */
-public class TaskTable {
+public final class TaskTable {
     private final static int BOTTOM_BOUND_OF_RANDOM = 10000;
     private final static int UPPER_BOUND_OF_RANDOM = 90000;
     private volatile int lastTaskIdentifier;

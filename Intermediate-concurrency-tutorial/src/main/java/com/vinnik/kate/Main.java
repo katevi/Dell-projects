@@ -21,7 +21,7 @@ public class Main {
 
             System.out.println("Amount of threads is " + amountOfThreads + ", amount of measurements is " + amountOfMeasurements + ".");
 
-            TaskExecutor executor = new TaskExecutor(amountOfThreads, amountOfMeasurements);
+            final TaskExecutor executor = new TaskExecutor(amountOfThreads, amountOfMeasurements);
             executor.measureTasksCompletionTime();
 
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
