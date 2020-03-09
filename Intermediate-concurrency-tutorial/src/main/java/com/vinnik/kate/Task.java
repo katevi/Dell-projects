@@ -1,7 +1,7 @@
 package com.vinnik.kate;
 
 /** Setter-getter class, which implements identity task. */
-public class Task {
+public final class Task {
     private final int taskIdentifier;
     private final int amountOfNumbers;
     private int threadIdentifier;

@@ -23,6 +23,7 @@ public class Main {
 
             final TaskExecutor executor = new TaskExecutor(amountOfThreads, amountOfMeasurements);
             executor.measureTasksCompletionTime();
+            executor.printResults();
 
         } catch (java.lang.ArrayIndexOutOfBoundsException e) {
             printMessageAboutIncorrectInput();

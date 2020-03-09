@@ -10,11 +10,13 @@ public final class TaskExecutor {
     private final int amountOfThreads;
 
     private final TaskTable taskTable;
+    private final ResultTable resultTable;
 
     /** Creates new object's table with tasks with given amount of tasks, creates given amount of threads. */
     public TaskExecutor(int amountOfThreads, int amountOfMeasurements) {
         this.amountOfThreads = amountOfThreads;
         this.taskTable = new TaskTable(amountOfMeasurements);
+        this.resultTable = new ResultTable(amountOfMeasurements);
     }
 
     /** Starts measures of time to complete each task from table with tasks. */
@@ -24,6 +26,10 @@ public final class TaskExecutor {
             final Thread thread = new Thread(new ThreadSorter(i));
             thread.start();
         }
+    }
+
+    public void printResults() {
+        resultTable.printResultsInTheThread();
     }
 
     private final class ThreadSorter implements Runnable {
@@ -48,7 +54,7 @@ public final class TaskExecutor {
                     final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
 
                     this.task.setMeasuredTime(elapsedTimeInMilliseconds);
-                    this.printMeasure(this.task);
+                    this.printMeasureToResultTable(this.task);
                 }
             }
         }
@@ -77,9 +83,10 @@ public final class TaskExecutor {
             }
         }
 
-        private void printMeasure(Task task) {
-            System.out.println("Thread " + task.getThreadIdentifier() + " completed task " + task.getTaskIdentifier()
-                    + ": sorted " + task.getAmountOfNumbers() + " numbers in " + task.getMeasuredTime() + " milliseconds. ");
+        private void printMeasureToResultTable(Task task) {
+            resultTable.addCompletedTask(task);
+            /*System.out.println("Thread " + task.getThreadIdentifier() + " completed task " + task.getTaskIdentifier()
+                    + ": sorted " + task.getAmountOfNumbers() + " numbers in " + task.getMeasuredTime() + " milliseconds. ");*/
         }
     }
 }
