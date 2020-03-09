@@ -45,18 +45,19 @@ public final class TaskExecutor {
         public void run() {
             while (!taskTable.isAllTaskTook()) {
                 this.task = taskTable.popLastTaskIdentifier();
-                if (this.task != null) {
-                    this.task.setThreadIdentifier(this.threadIdentifier);
-
-                    System.out.println("Thread number " + task.getThreadIdentifier() + " took task " + task.getTaskIdentifier() + ".");
-
-                    final long startTime = System.nanoTime();
-                    this.sort(generateRandomArray(task.getAmountOfNumbers()));
-                    final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
-
-                    this.task.setMeasuredTime(elapsedTimeInMilliseconds);
-                    this.printMeasureToResultTable(this.task);
+                if (this.task == null ) {
+                    return;
                 }
+                this.task.setThreadIdentifier(this.threadIdentifier);
+
+                System.out.println("Thread number " + task.getThreadIdentifier() + " took task " + task.getTaskIdentifier() + ".");
+
+                final long startTime = System.nanoTime();
+                this.sort(generateRandomArray(task.getAmountOfNumbers()));
+                final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
+
+                this.task.setMeasuredTime(elapsedTimeInMilliseconds);
+                this.printMeasureToResultTable(this.task);
             }
         }
 
