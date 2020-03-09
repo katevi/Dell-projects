@@ -28,6 +28,7 @@ public final class TaskExecutor {
         }
     }
 
+    /** Prints all made mesurements. */
     public void printResults() {
         resultTable.printResultsInTheThread();
     }
@@ -85,8 +86,6 @@ public final class TaskExecutor {
 
         private void printMeasureToResultTable(Task task) {
             resultTable.addCompletedTask(task);
-            /*System.out.println("Thread " + task.getThreadIdentifier() + " completed task " + task.getTaskIdentifier()
-                    + ": sorted " + task.getAmountOfNumbers() + " numbers in " + task.getMeasuredTime() + " milliseconds. ");*/
         }
     }
 }
