@@ -32,6 +32,7 @@ public final class TaskTable {
         return null;
     }
 
+    /** Returns current size of taskTable. */
     public int getSize() {
         return taskTable.size();
     }
