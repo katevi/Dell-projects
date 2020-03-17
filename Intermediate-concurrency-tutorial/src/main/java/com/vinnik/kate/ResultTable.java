@@ -24,10 +24,12 @@ public final class ResultTable {
         }
     }
 
+    /** Returns current size of resultTable. */
     public int getSize() {
         return resultTable.size();
     }
 
+    /** Print information about all elements of resultTable (all completed tasks). */
     public void printTableElements() {
         for (int i = 0; i < this.resultTable.size(); i++) {
             System.out.println("Thread " + this.resultTable.get(i).getThreadIdentifier() + " completed task " + this.resultTable.get(i).getTaskIdentifier()
