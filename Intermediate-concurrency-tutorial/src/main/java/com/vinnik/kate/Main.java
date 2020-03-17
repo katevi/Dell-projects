@@ -25,9 +25,9 @@ public class Main {
             executor.measureTasksCompletionTime();
             executor.printMeasures();
 
-        } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             printMessageAboutIncorrectInput();
-        } catch (java.lang.NumberFormatException e) {
+        } catch (NumberFormatException e) {
             printMessageAboutIncorrectInput();
         } catch (Exception e) {
             System.out.println("Something went wrong in multithreading sorter. To restart, enter command: \n" +
