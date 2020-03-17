@@ -12,25 +12,45 @@ public final class TaskExecutor {
     private final TaskTable taskTable;
     private final ResultTable resultTable;
 
+    private boolean resultTableIsBusy;
+
     /** Creates new object's table with tasks with given amount of tasks, creates given amount of threads. */
     public TaskExecutor(int amountOfThreads, int amountOfMeasurements) {
         this.amountOfThreads = amountOfThreads;
         this.taskTable = new TaskTable(amountOfMeasurements);
         this.resultTable = new ResultTable(amountOfMeasurements);
+        this.resultTableIsBusy = false;
     }
 
     /** Starts measures of time to complete each task from table with tasks. */
     public void measureTasksCompletionTime() {
-        System.out.println("Measuring starts...");
+        this.resultTableIsBusy = true;
         for (int i = 0; i < amountOfThreads; i++) {
             final Thread thread = new Thread(new ThreadSorter(i));
             thread.start();
+
         }
     }
 
     /** Prints all made mesurements. */
-    public void printResults() {
-        resultTable.printResultsInTheThread();
+    public void printMeasures() {
+        receiveSignal();
+        resultTable.printTableElements();
+    }
+
+    private synchronized void receiveSignal() {
+        while (resultTableIsBusy) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private synchronized void sendSignal() {
+        resultTableIsBusy = false;
+        notifyAll();
     }
 
     private final class ThreadSorter implements Runnable {
@@ -59,8 +79,10 @@ public final class TaskExecutor {
                 this.task.setMeasuredTime(elapsedTimeInMilliseconds);
                 this.printMeasureToResultTable(this.task);
             }
+            if (resultTable.getSize() == taskTable.getSize()) {
+                sendSignal();
+            }
         }
-
 
         private int[] generateRandomArray(int arraySize) {
             final int[] randomArray = new int[arraySize];

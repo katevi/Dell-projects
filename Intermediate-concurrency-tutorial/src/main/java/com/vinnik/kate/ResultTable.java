@@ -24,28 +24,14 @@ public final class ResultTable {
         }
     }
 
-    private void printTableElements() {
+    public int getSize() {
+        return resultTable.size();
+    }
+
+    public void printTableElements() {
         for (int i = 0; i < this.resultTable.size(); i++) {
             System.out.println("Thread " + this.resultTable.get(i).getThreadIdentifier() + " completed task " + this.resultTable.get(i).getTaskIdentifier()
                     + ": sorted " + this.resultTable.get(i).getAmountOfNumbers() + " numbers in " + this.resultTable.get(i).getMeasuredTime() + " milliseconds. ");
         }
-    }
-
-    /** Waits until all tasks completed and after prints all measurements, which have done. */
-    public void printResultsInTheThread() {
-        Thread printThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                printTableElements();
-            }
-        });
-        while (lastCompletedTaskIdentifier < amountOfTasksToBeCompleted) {
-            try {
-                printThread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        printThread.start();
     }
 }

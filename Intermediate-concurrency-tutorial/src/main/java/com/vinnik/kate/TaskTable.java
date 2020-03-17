@@ -32,6 +32,10 @@ public final class TaskTable {
         return null;
     }
 
+    public int getSize() {
+        return taskTable.size();
+    }
+
     private Hashtable<Integer, Task> fillTableWithTasks(int amountOfMeasurements) {
         final Hashtable<Integer, Task> tableWithTasks = new Hashtable<>();
         for (int i = 0; i < amountOfMeasurements; i++) {
