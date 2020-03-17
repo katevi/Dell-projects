@@ -36,7 +36,7 @@ public final class TaskTable {
         return taskTable.size();
     }
 
-    private Hashtable<Integer, Task> fillTableWithTasks(int amountOfMeasurements) {
+    private Hashtable<Integer, Task> fillTableWithTasks(final int amountOfMeasurements) {
         final Hashtable<Integer, Task> tableWithTasks = new Hashtable<>();
         for (int i = 0; i < amountOfMeasurements; i++) {
             tableWithTasks.put(i, new Task(i, this.generateRandom()));

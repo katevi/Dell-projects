@@ -15,7 +15,7 @@ public final class TaskExecutor {
     private boolean resultTableIsBusy;
 
     /** Creates new object's table with tasks with given amount of tasks, creates given amount of threads. */
-    public TaskExecutor(int amountOfThreads, int amountOfMeasurements) {
+    public TaskExecutor(final int amountOfThreads, final int amountOfMeasurements) {
         this.amountOfThreads = amountOfThreads;
         this.taskTable = new TaskTable(amountOfMeasurements);
         this.resultTable = new ResultTable(amountOfMeasurements);
@@ -34,11 +34,11 @@ public final class TaskExecutor {
 
     /** Prints all made mesurements. */
     public void printMeasures() {
-        receiveSignal();
+        waitSignalAboutTasksCompletion();
         resultTable.printTableElements();
     }
 
-    private synchronized void receiveSignal() {
+    private synchronized void waitSignalAboutTasksCompletion() {
         while (resultTableIsBusy) {
             try {
                 wait();
@@ -48,7 +48,7 @@ public final class TaskExecutor {
         }
     }
 
-    private synchronized void sendSignal() {
+    private synchronized void sendSignalAboutTasksCompletion() {
         resultTableIsBusy = false;
         notifyAll();
     }
@@ -57,7 +57,7 @@ public final class TaskExecutor {
         private final int threadIdentifier;
         private Task task;
 
-        private ThreadSorter(int threadIdentifier) {
+        private ThreadSorter(final int threadIdentifier) {
             this.threadIdentifier = threadIdentifier;
         }
 
@@ -80,11 +80,11 @@ public final class TaskExecutor {
                 this.printMeasureToResultTable(this.task);
             }
             if (resultTable.getSize() == taskTable.getSize()) {
-                sendSignal();
+                sendSignalAboutTasksCompletion();
             }
         }
 
-        private int[] generateRandomArray(int arraySize) {
+        private int[] generateRandomArray(final int arraySize) {
             final int[] randomArray = new int[arraySize];
             final Random random = new Random();
             for (int i = 0; i < randomArray.length; i++) {
@@ -93,7 +93,7 @@ public final class TaskExecutor {
             return randomArray;
         }
 
-        private void sort(int[] array) {
+        private void sort(final int[] array) {
             final int length = array.length;
 
             for (int i = 0; i < length - 1; i++) {
@@ -107,7 +107,7 @@ public final class TaskExecutor {
             }
         }
 
-        private void printMeasureToResultTable(Task task) {
+        private void printMeasureToResultTable(final Task task) {
             resultTable.addCompletedTask(task);
         }
     }

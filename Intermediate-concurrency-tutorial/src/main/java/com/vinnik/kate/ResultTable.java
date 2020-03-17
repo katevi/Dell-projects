@@ -10,14 +10,14 @@ public final class ResultTable {
     /** By given amount of measurements creates empty hash table for adding completed task in it,
      *  amount of tasks, which should be completed, number of tasks, which completed already.
      * @param amountOfMeasurements - amount of tasks, which should be completed. */
-    public ResultTable(int amountOfMeasurements) {
+    public ResultTable(final int amountOfMeasurements) {
         this.lastCompletedTaskIdentifier = 0;
         this.resultTable = new Hashtable();
         this.amountOfTasksToBeCompleted = amountOfMeasurements;
     }
 
     /** When thread completes the task, it adds measurements to result table. */
-    public synchronized void addCompletedTask(Task task) {
+    public synchronized void addCompletedTask(final Task task) {
         resultTable.put(lastCompletedTaskIdentifier, task);
         if (lastCompletedTaskIdentifier < this.amountOfTasksToBeCompleted) {
             this.lastCompletedTaskIdentifier++;
