@@ -32,8 +32,17 @@ public final class ResultTable {
     /** Print information about all elements of resultTable (all completed tasks). */
     public void printTableElements() {
         for (int i = 0; i < this.resultTable.size(); i++) {
-            System.out.println("Thread " + this.resultTable.get(i).getThreadIdentifier() + " completed task " + this.resultTable.get(i).getTaskIdentifier()
-                    + ": sorted " + this.resultTable.get(i).getAmountOfNumbers() + " numbers in " + this.resultTable.get(i).getMeasuredTime() + " milliseconds. ");
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Thread ");
+            stringBuilder.append(this.resultTable.get(i).getThreadIdentifier());
+            stringBuilder.append(" completed task ");
+            stringBuilder.append(this.resultTable.get(i).getTaskIdentifier());
+            stringBuilder.append(": sorted ");
+            stringBuilder.append(this.resultTable.get(i).getAmountOfNumbers());
+            stringBuilder.append(" numbers in ");
+            stringBuilder.append(this.resultTable.get(i).getMeasuredTime());
+            stringBuilder.append(" milliseconds. ");
+            System.out.println(stringBuilder);
         }
     }
 }
