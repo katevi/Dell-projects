@@ -1,13 +1,19 @@
 # Multithreading introductory task in Dell mentoring program.
 
 ### How to execute program:
-1. Please, create executable jar file of this program. Instruction might be found in this link: https://www.jetbrains.com/help/idea/packaging-a-module-into-a-jar-file.html
-2. Execute created jar file by entering this command in command line: 
-"java -jar {name-of-created-jar-file}.jar {amount-of-threads} {amount-of-measurements}"
-3. To restart program with new parameters, reexecute jar file with new amount of threads
+
+1. Open command line in the root of project directory. Enter ```gradle fatJar```
+
+2. Go to the directory ```build/libs/```
+
+3. In ```build/libs``` there is ```Intermediate-concurrency-tutorial-all-1.0-SNAPSHOT.jar
+```
+4. Execute this from command line by entering 
+```java -jar Intermediate-concurrency-tutorial-all-1.0-SNAPSHOT.jar {amount of threads you want} {amount of measurements you want}```
 
 ### Description of functionality
-In this task trained concurrency problem - work of many threads with one resource. 1. User enters amount of threads and amount of measures he want. 
+In this task trained concurrency problem - work of many threads with one resource. 
+1. User enters amount of threads and amount of measures he want. 
 2. Program generates table with tasks: amount of tasks is amount of measures. The task is randomly generated array from 10000 to 100000 numbers in size, which need be sorted. To complete the task means to sort array.
 3. Program creates given number of threads and starts them.
 4. All threads works with table with tasks: each of them goes to the table, takes the first found non-completed and non-took-yet task and starts do it.
