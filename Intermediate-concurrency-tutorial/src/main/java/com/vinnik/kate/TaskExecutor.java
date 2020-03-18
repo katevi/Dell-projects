@@ -74,7 +74,7 @@ public final class TaskExecutor {
 
                 final long startTime = System.nanoTime();
                 this.sort(generateRandomArray(task.getAmountOfNumbers()));
-                final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / (double) NANOSECONDS_IN_MILLISECONDS;
+                final double elapsedTimeInMilliseconds = (double) (System.nanoTime() - startTime) / NANOSECONDS_IN_MILLISECONDS;
 
                 this.task.setMeasuredTime(elapsedTimeInMilliseconds);
                 this.printMeasureToResultTable(this.task);
