@@ -12,19 +12,19 @@ public final class TaskExecutor {
     private final TaskTable taskTable;
     private final ResultTable resultTable;
 
-    private boolean resultTableIsBusy;
+    private boolean isResultTableBusy;
 
     /** Creates new object's table with tasks with given amount of tasks, creates given amount of threads. */
     public TaskExecutor(final int amountOfThreads, final int amountOfMeasurements) {
         this.amountOfThreads = amountOfThreads;
         this.taskTable = new TaskTable(amountOfMeasurements);
         this.resultTable = new ResultTable(amountOfMeasurements);
-        this.resultTableIsBusy = false;
+        this.isResultTableBusy = false;
     }
 
     /** Starts measures of time to complete each task from table with tasks. */
     public void measureTasksCompletionTime() {
-        this.resultTableIsBusy = true;
+        this.isResultTableBusy = true;
         for (int i = 0; i < amountOfThreads; i++) {
             final Thread thread = new Thread(new ThreadSorter(i));
             thread.start();
@@ -39,7 +39,7 @@ public final class TaskExecutor {
     }
 
     private synchronized void waitSignalAboutTasksCompletion() {
-        while (resultTableIsBusy) {
+        while (isResultTableBusy) {
             try {
                 wait();
             } catch (InterruptedException e) {
@@ -49,7 +49,7 @@ public final class TaskExecutor {
     }
 
     private synchronized void sendSignalAboutTasksCompletion() {
-        resultTableIsBusy = false;
+        isResultTableBusy = false;
         notifyAll();
     }
 
